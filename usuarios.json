@@ -1,0 +1,11 @@
+[
+  {
+    "Id": 1,
+    "Nome": "admin",
+    "Email": "admin@smartkiosk.com",
+    "CPF": "96370753598",
+    "Telefone": "7199361796",
+    "Senha": "123",
+    "Ativo": true
+  }
+]

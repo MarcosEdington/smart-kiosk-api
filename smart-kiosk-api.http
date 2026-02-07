@@ -1,0 +1,6 @@
+@smart_kiosk_api_HostAddress = http://localhost:5017
+
+GET {{smart_kiosk_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 9,
+    "Chave": "loteriaContainer",
+    "Fonte": "loteria.html",
+    "Tipo": "iframe",
+    "Duracao": 5000,
+    "Posicao": 1,
+    "Ativo": true
+  },
+  {
+    "Id": 10,
+    "Chave": "loteriaquinaContainer",
+    "Fonte": "loteriaquina.html",
+    "Tipo": "iframe",
+    "Duracao": 5000,
+    "Posicao": 2,
+    "Ativo": true
+  },
+  {
+    "Id": 11,
+    "Chave": "youtubeVideo",
+    "Fonte": "cinemaLeme.html",
+    "Tipo": "iframe",
+    "Duracao": 10000,
+    "Posicao": 3,
+    "Ativo": true
+  },
+  {
+    "Id": 12,
+    "Chave": "noticias",
+    "Fonte": "noticias",
+    "Tipo": "iframe",
+    "Duracao": 10000,
+    "Posicao": 4,
+    "Ativo": true
+  }
+]

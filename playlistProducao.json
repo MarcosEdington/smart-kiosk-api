@@ -1,0 +1,110 @@
+[
+  {
+    "Id": 1,
+    "Chave": "anuncieaqui2",
+    "Fonte": "videos/anuncieaqui2.mp4",
+    "Tipo": "video",
+    "Duracao": 60000,
+    "Posicao": 1,
+    "Ativo": true
+  },
+  {
+    "Id": 4,
+    "Chave": "geladinho",
+    "Fonte": "videos/geladinho.mp4",
+    "Tipo": "video",
+    "Duracao": 60000,
+    "Posicao": 2,
+    "Ativo": true
+  },
+  {
+    "Id": 3,
+    "Chave": "estofado",
+    "Fonte": "videos/estofado.mp4",
+    "Tipo": "video",
+    "Duracao": 60000,
+    "Posicao": 3,
+    "Ativo": true
+  },
+  {
+    "Id": 2,
+    "Chave": "ingles",
+    "Fonte": "videos/ingles.mp4",
+    "Tipo": "video",
+    "Duracao": 60000,
+    "Posicao": 4,
+    "Ativo": true
+  },
+  {
+    "Id": 5,
+    "Chave": "pizzasobremesa",
+    "Fonte": "videos/pizzasobremesa.mp4",
+    "Tipo": "video",
+    "Duracao": 60000,
+    "Posicao": 5,
+    "Ativo": true
+  },
+  {
+    "Id": 6,
+    "Chave": "anuncieaqui",
+    "Fonte": "videos/anuncieaqui.mp4",
+    "Tipo": "video",
+    "Duracao": 60000,
+    "Posicao": 6,
+    "Ativo": true
+  },
+  {
+    "Id": 7,
+    "Chave": "capoierapilates",
+    "Fonte": "videos/capoierapilates.mp4",
+    "Tipo": "video",
+    "Duracao": 60000,
+    "Posicao": 7,
+    "Ativo": true
+  },
+  {
+    "Id": 8,
+    "Chave": "informativo",
+    "Fonte": "videos/textContaineraviso.mp4",
+    "Tipo": "video",
+    "Duracao": 15000,
+    "Posicao": 8,
+    "Ativo": true
+  },
+  {
+    "Id": 9,
+    "Chave": "loteriaContainer",
+    "Fonte": "loteria.html",
+    "Tipo": "iframe",
+    "Duracao": 5000,
+    "Posicao": 9,
+    "Ativo": true
+  },
+  {
+    "Id": 10,
+    "Chave": "loteriaquinaContainer",
+    "Fonte": "loteriaquina.html",
+    "Tipo": "iframe",
+    "Duracao": 5000,
+    "Posicao": 10,
+    "Ativo": true
+  },
+  {
+    "Id": 11,
+    "Chave": "youtubeVideo",
+    "Fonte": "cinemaLeme.html",
+    "Tipo": "iframe",
+    "Duracao": 10000,
+    "Posicao": 11,
+    "Ativo": true
+  },
+  {
+    "Id": 12,
+    "Chave": "noticias",
+    "Fonte": "noticias",
+    "Tipo": "iframe",
+    "Duracao": 10000,
+    "Posicao": 12,
+    "Ativo": true
+  }
+]
