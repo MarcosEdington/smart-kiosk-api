@@ -51,46 +51,57 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. CORS ---
+// --- 1. CONFIGURAÇÃO DE CORS ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("LiberarReact", policy =>
     {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Registro do seu serviço de dados
 builder.Services.AddScoped<smart_kiosk_api.Services.DataService>();
 
 var app = builder.Build();
 
+// --- 2. PIPELINE DE EXECUÇÃO ---
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// O CORS deve vir sempre antes dos arquivos estáticos
 app.UseCors("LiberarReact");
 
-// --- AJUSTE PARA O RENDER LOCALIZAR OS VÍDEOS ---
-// 1. Habilita arquivos na raiz da wwwroot
-app.UseStaticFiles(); 
+// --- CONFIGURAÇÃO DE FORÇA BRUTA PARA ARQUIVOS ESTÁTICOS (RENDER/LINUX) ---
 
-// 2. Mapeia explicitamente a pasta videos para a URL /videos
-var videosPath = Path.Combine(app.Environment.ContentRootPath, "wwwroot", "videos");
+// Definimos o caminho absoluto para a pasta de vídeos
+// Directory.GetCurrentDirectory() garante que estamos na raiz da aplicação no Render
+var videosPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "videos");
 
-// Se a pasta não existir no servidor, ele cria (evita erro de path)
-if (!Directory.Exists(videosPath)) {
+// Log de segurança: Se a pasta não existir no servidor, nós a criamos agora
+if (!Directory.Exists(videosPath))
+{
     Directory.CreateDirectory(videosPath);
 }
 
+// Forçamos o mapeamento da URL /videos para a pasta física videosPath
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(videosPath),
     RequestPath = "/videos",
-    ServeUnknownFileTypes = true,
-    DefaultContentType = "video/mp4"
+    ServeUnknownFileTypes = true, // Permite que o servidor entregue o .mp4 mesmo sem mime-type explícito
+    DefaultContentType = "video/mp4" // Reforça que o conteúdo é vídeo
 });
+
+// Também habilitamos o suporte padrão para outros arquivos na wwwroot
+app.UseStaticFiles(); 
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
