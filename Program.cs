@@ -51,11 +51,8 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. CONFIGURAÇÃO DE CORS ---
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("LiberarReact", policy =>
-    {
+builder.Services.AddCors(options => {
+    options.AddPolicy("LiberarReact", policy => {
         policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
@@ -71,32 +68,38 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseCors("LiberarReact");
 
-// --- AJUSTE DE CAMINHO PARA A ESTRUTURA DO SEU GITHUB ---
-// O Render executa a partir da raiz, mas seus arquivos estão em smart-kiosk-api/wwwroot
-var videosPath = Path.Combine(Directory.GetCurrentDirectory(), "smart-kiosk-api", "wwwroot", "videos");
+// --- LÓGICA DE RESGATE DE DIRETÓRIO (FORÇA BRUTA) ---
+// O Render diz que /app/wwwroot não existe. Vamos procurar onde ela está:
+string rootPath = Directory.GetCurrentDirectory();
+string[] caminhosParaTestar = {
+    Path.Combine(rootPath, "smart-kiosk-api", "wwwroot", "videos"),
+    Path.Combine(rootPath, "wwwroot", "videos"),
+    "/app/smart-kiosk-api/wwwroot/videos" 
+};
 
-// Fallback: Se não achar com a pasta do projeto, tenta o padrão (ajuda no local/produção)
-if (!Directory.Exists(videosPath))
-{
-    videosPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "videos");
+string finalVideosPath = "";
+foreach (var caminho in caminhosParaTestar) {
+    if (Directory.Exists(caminho)) {
+        finalVideosPath = caminho;
+        break;
+    }
 }
 
-if (!Directory.Exists(videosPath))
-{
-    Directory.CreateDirectory(videosPath);
+// Se não achou, cria uma na marra para o sistema não crashar
+if (string.IsNullOrEmpty(finalVideosPath)) {
+    finalVideosPath = Path.Combine(rootPath, "wwwroot", "videos");
+    Directory.CreateDirectory(finalVideosPath);
 }
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(videosPath),
+// Configura o mapeamento
+app.UseStaticFiles(new StaticFileOptions {
+    FileProvider = new PhysicalFileProvider(finalVideosPath),
     RequestPath = "/videos",
     ServeUnknownFileTypes = true,
     DefaultContentType = "video/mp4"
 });
+// ---------------------------------------------------
 
-app.UseStaticFiles(); 
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-
