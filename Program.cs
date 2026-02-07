@@ -56,56 +56,47 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("LiberarReact", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Registro do seu serviço de dados
 builder.Services.AddScoped<smart_kiosk_api.Services.DataService>();
 
 var app = builder.Build();
 
-// --- 2. PIPELINE DE EXECUÇÃO ---
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
-// O CORS deve vir sempre antes dos arquivos estáticos
 app.UseCors("LiberarReact");
 
-// --- CONFIGURAÇÃO DE FORÇA BRUTA PARA ARQUIVOS ESTÁTICOS (RENDER/LINUX) ---
+// --- AJUSTE DE CAMINHO PARA A ESTRUTURA DO SEU GITHUB ---
+// O Render executa a partir da raiz, mas seus arquivos estão em smart-kiosk-api/wwwroot
+var videosPath = Path.Combine(Directory.GetCurrentDirectory(), "smart-kiosk-api", "wwwroot", "videos");
 
-// Definimos o caminho absoluto para a pasta de vídeos
-// Directory.GetCurrentDirectory() garante que estamos na raiz da aplicação no Render
-var videosPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "videos");
+// Fallback: Se não achar com a pasta do projeto, tenta o padrão (ajuda no local/produção)
+if (!Directory.Exists(videosPath))
+{
+    videosPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "videos");
+}
 
-// Log de segurança: Se a pasta não existir no servidor, nós a criamos agora
 if (!Directory.Exists(videosPath))
 {
     Directory.CreateDirectory(videosPath);
 }
 
-// Forçamos o mapeamento da URL /videos para a pasta física videosPath
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(videosPath),
     RequestPath = "/videos",
-    ServeUnknownFileTypes = true, // Permite que o servidor entregue o .mp4 mesmo sem mime-type explícito
-    DefaultContentType = "video/mp4" // Reforça que o conteúdo é vídeo
+    ServeUnknownFileTypes = true,
+    DefaultContentType = "video/mp4"
 });
 
-// Também habilitamos o suporte padrão para outros arquivos na wwwroot
 app.UseStaticFiles(); 
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
 
