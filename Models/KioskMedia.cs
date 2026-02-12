@@ -7,10 +7,10 @@ namespace smart_kiosk_api.Models
         public int Id { get; set; } // ID numérico para controle da API
 
         [Required]
-        public string Chave { get; set; } = string.Empty; // ex: "ingles" (o que seu JS usa)
+        public string Chave { get; set; } = string.Empty; 
 
         [Required]
-        public string Fonte { get; set; } = string.Empty; // ex: "videos/ingles.mp4"
+        public string Fonte { get; set; } = string.Empty; 
 
         [Required]
         public string Tipo { get; set; } = "video";      // "video" ou "iframe"
