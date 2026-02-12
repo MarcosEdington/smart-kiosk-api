@@ -62,7 +62,7 @@ namespace smart_kiosk_api.Controllers
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
 
-            // Normaliza o nome do arquivo usando a chave (ex: Video Da Promo -> video_da_promo.mp4)
+            // Normaliza o nome do arquivo usando a chave 
             var fileName = $"{chave.Replace(" ", "_").ToLower()}.mp4";
             var filePath = Path.Combine(folderPath, fileName);
 
@@ -72,7 +72,7 @@ namespace smart_kiosk_api.Controllers
                 await videoFile.CopyToAsync(stream);
             }
 
-            // AJUSTE: Retornamos a URL com a barra inicial para o Front-end localizar na raiz da API
+            // Retorna a URL com a barra inicial para o Front-end localizar na raiz da API
             var relativeUrl = $"/videos/{fileName}"; 
             
             return Ok(new { url = relativeUrl });
