@@ -6,7 +6,7 @@
 
 //builder.Services.AddControllers();
 
-//// Adiciona Swagger para documentação e teste da API
+
 //builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
@@ -19,7 +19,7 @@
 //    options.AddPolicy("AllowSmartKiosk",
 //        policy =>
 //        {
-//            policy.AllowAnyOrigin()   // Permite que qualquer origem (inclusive o leme.html local) acesse
+//            policy.AllowAnyOrigin()   
 //                  .AllowAnyHeader()
 //                  .AllowAnyMethod();
 //        });
@@ -29,13 +29,11 @@
 
 //// --- CONFIGURAÇÃO DO PIPELINE HTTP ---
 
-//// Habilita o Swagger independente do ambiente para facilitar seus testes
+
 //app.UseSwagger();
 //app.UseSwaggerUI();
 
-//// Importante: Se o seu leme.html estiver rodando via HTTP local, 
-//// o Redirection pode causar bloqueios em alguns navegadores antigos de Kiosk.
-//// Se preferir usar apenas HTTP no elevador, pode comentar a linha abaixo:
+
 //app.UseHttpsRedirection();
 
 //// ATIVA O CORS (Deve vir antes do MapControllers)
@@ -68,8 +66,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseCors("LiberarReact");
 
-// --- LÓGICA DE RESGATE DE DIRETÓRIO (FORÇA BRUTA) ---
-// O Render diz que /app/wwwroot não existe. Vamos procurar onde ela está:
+
 string rootPath = Directory.GetCurrentDirectory();
 string[] caminhosParaTestar = {
     Path.Combine(rootPath, "smart-kiosk-api", "wwwroot", "videos"),
@@ -85,13 +82,13 @@ foreach (var caminho in caminhosParaTestar) {
     }
 }
 
-// Se não achou, cria uma na marra para o sistema não crashar
+
 if (string.IsNullOrEmpty(finalVideosPath)) {
     finalVideosPath = Path.Combine(rootPath, "wwwroot", "videos");
     Directory.CreateDirectory(finalVideosPath);
 }
 
-// Configura o mapeamento
+
 app.UseStaticFiles(new StaticFileOptions {
     FileProvider = new PhysicalFileProvider(finalVideosPath),
     RequestPath = "/videos",
